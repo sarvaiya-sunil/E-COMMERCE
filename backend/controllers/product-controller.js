@@ -67,7 +67,7 @@ export const deleteProducts = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {
-      return res.status(404).json({ message: "Producct not found" });
+      return res.status(404).json({ message: "Product not found" });
     }
     if (product.image) {
       const publicId = product.image.split("/").pop().split(".")[0];
