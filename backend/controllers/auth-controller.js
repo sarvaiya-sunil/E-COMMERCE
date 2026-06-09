@@ -70,20 +70,16 @@ export const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    console.log("0");
     if (!user) return res.status(404).json({ message: "User not found" });
-    console.log("calling compare method...");
     const isMatch = await user.comparePassword(password);
-    console.log(isMatch);
+
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
-    console.log("1");
+
     const { accessToken, refreshToken } = generateTokens(user._id);
-    console.log("2");
     await storeRefreshToken(user._id, refreshToken);
-    console.log("3");
     setCookie(res, accessToken, refreshToken);
-    console.log("4");
+
     res.status(200).json({
       user: {
         _id: user._id,
@@ -93,7 +89,6 @@ export const login = async (req, res) => {
       },
       message: "User loggedIn Successfully",
     });
-    console.log("5");
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
