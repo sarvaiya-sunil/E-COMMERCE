@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 app.use(cookieParser()); // allows you to parse cookies from the request
 const PORT = process.env.PORT || 5000;
-app.use(express.json()); // allows you to parse body of the request
+app.use(express.json({ limit: "10mb" })); // allows you to parse body of the request
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
