@@ -7,13 +7,15 @@ import ProductCard from "../components/ProductCard";
 const CategoryPage = () => {
   const { fetchProductsByCategory, products } = useProductStore();
   const { category } = useParams();
+
   useEffect(() => {
     fetchProductsByCategory(category);
-  }, [fetchProductsByCategory]);
+  }, [fetchProductsByCategory, category]);
+
   console.log(products);
   return (
-    <div className="max-h-screen">
-      <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-6 py-16">
+    <div className="min-h-screen">
+      <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.h1
           className="text-center text-4xl sm:text-5xl font-bold text-emerald-400 mb-8"
           initial={{ opacity: 0, y: -20 }}
@@ -34,7 +36,7 @@ const CategoryPage = () => {
             </h2>
           )}
 
-          {products.map((product) => (
+          {products?.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </motion.div>
