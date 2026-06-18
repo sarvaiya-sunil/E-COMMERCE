@@ -11,10 +11,10 @@ export const useCartStore = create((set, get) => ({
   getCartItems: async () => {
     try {
       const res = await axios.get("/cart");
-      set({ carts: res.data });
+      set({ cart: res.data });
       get().calculateTotals();
     } catch (error) {
-      set({ carts: [] });
+      set({ cart: [] });
       toast.error(
         error.response?.data?.message || "Error in fetch the cart items",
       );
@@ -45,6 +45,36 @@ export const useCartStore = create((set, get) => ({
       toast.error(
         error.response?.data?.message || "Error to add to cart producs",
       );
+    }
+  },
+
+  removeFromCart: async (productId) => {
+    try {
+      await axios.delete(`/cart`, { data: { productId } });
+      set((prevState) => ({
+        cart: prevState.cart.filter((item) => item._id !== productId),
+      }));
+      get().calculateTotals();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  },
+
+  updateQuantity: async (productId, quantity) => {
+    if (quantity === 0) {
+      get().removeFromCart(productId);
+      return;
+    }
+    try {
+      const res = await axios.put(`/cart/${productId}`, { quantity });
+      set((prevState) => ({
+        cart: prevState.cart.map((item) =>
+          item._id === productId ? { ...item, quantity } : item,
+        ),
+      }));
+      get().calculateTotals();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   },
 
