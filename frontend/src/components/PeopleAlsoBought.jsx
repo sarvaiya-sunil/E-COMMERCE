@@ -29,7 +29,7 @@ const PeopleAlsoBought = () => {
 
   return (
     <div className="mt-8">
-      <h3 className="text-2xl font-semibold text-emerald-400">
+      <h3 className="text-2xl font-semibold text-emerald-400 mb-4">
         People also bought
       </h3>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

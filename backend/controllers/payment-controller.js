@@ -1,6 +1,7 @@
 import Coupon from "../models/coupon-model.js";
 import Order from "../models/order-model.js";
 import { stripe } from "../lib/stripe.js";
+import User from "../models/user-model.js";
 
 export const createCheckoutSession = async (req, res) => {
   try {
@@ -107,6 +108,11 @@ export const checkoutSuccess = async (req, res) => {
       });
 
       await newOrder.save();
+
+      await User.findByIdAndUpdate(session.metadata.userId, {
+        cartItems: [],
+      });
+
       res.status(200).json({
         success: true,
         message:

@@ -11,6 +11,8 @@ import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
 import { useCartStore } from "./stores/useCartStore";
+import PurchaseSuccessPage from "./pages/PurchaseSuccessPage";
+import PurchaseCancelPage from "./pages/PurchaseCancelPage";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -59,6 +61,8 @@ function App() {
             path="/cart"
             element={user ? <CartPage /> : <Navigate to="/login" />}
           />
+          <Route path="/purchase-success" element={<PurchaseSuccessPage />} />
+          <Route path="/purchase-cancel" element={<PurchaseCancelPage />} />
         </Routes>
       </div>
       <Toaster />
