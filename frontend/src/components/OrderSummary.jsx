@@ -16,17 +16,14 @@ const OrderSummary = () => {
   const formattedSavings = savings.toFixed(2);
 
   const handlePayment = async () => {
-    console.log("1");
     const stripe = await stripePromise;
-    console.log("2");
+
     const res = await axios.post("/payments/create-checkout-session", {
       products: cart,
-      coupon: coupon ? coupon.code : null,
+      couponCode: coupon ? coupon.code : null,
     });
-    console.log("3");
-    const session = res.data;
-    console.log(session.id);
 
+    const session = res.data;
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
