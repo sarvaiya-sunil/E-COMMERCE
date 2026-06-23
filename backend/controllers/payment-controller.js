@@ -94,7 +94,16 @@ export const checkoutSuccess = async (req, res) => {
         );
       }
 
-      // create a new order
+      // avoid duplicate orders: check if an order for this stripe session already exists
+      const existingOrder = await Order.findOne({ stripeSessionId: sessionId });
+      if (existingOrder) {
+        return res.status(200).json({
+          success: true,
+          message: "Order already processed.",
+          orderId: existingOrder._id,
+        });
+      }
+
       const products = JSON.parse(session.metadata.products);
       const newOrder = new Order({
         user: session.metadata.userId,
